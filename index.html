@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dashboard Avícola - Sistema Integral de Producción de Pollos de Engorde">
+    <title>Dashboard Avícola - Sistema 360° de Producción</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --border-radius: 10px;
+            --box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header estilo dashboard */
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-color), #1a252f);
+            color: white;
+            padding: 30px 0;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .header-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        /* Navegación */
+        .nav-dashboard {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            flex: 1;
+            text-align: center;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 18px 15px;
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-link:hover {
+            background-color: #f8f9fa;
+            color: var(--secondary-color);
+        }
+
+        .nav-link.active {
+            color: var(--secondary-color);
+            border-bottom-color: var(--secondary-color);
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+
+        .nav-icon {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+
+        /* Secciones principales */
+        .dashboard-section {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--secondary-color);
+        }
+
+        .section-subtitle {
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+
+        /* Tarjetas de estadísticas */
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Sistema Overview */
+        .system-overview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .overview-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .overview-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Módulos Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            border-top: 4px solid var(--secondary-color);
+        }
+
+        .module-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .module-header {
+            padding: 25px;
+            background: linear-gradient(135deg, var(--primary-color), #1a252f);
+            color: white;
+            position: relative;
+        }
+
+        .module-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--secondary-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .module-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+
+        .module-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .module-body {
+            padding: 25px;
+        }
+
+        .module-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .module-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .module-features li:last-child {
+            border-bottom: none;
+        }
+
+        .module-features i {
+            color: var(--success-color);
+            min-width: 20px;
+        }
+
+        .module-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 20px;
+            border: 2px solid var(--secondary-color);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .module-link:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        /* Resultados Grid */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: var(--transition);
+            border-top: 4px solid var(--success-color);
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .result-icon {
+            font-size: 2.5rem;
+            color: var(--success-color);
+            margin-bottom: 15px;
+        }
+
+        .result-number {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        /* Proceso del Ciclo */
+        .cycle-process {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .cycle-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .cycle-step {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin: 0 auto 15px;
+        }
+
+        /* Footer */
+        .dashboard-footer {
+            text-align: center;
+            padding: 25px 0;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .footer-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: #f0f0f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .footer-links h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary-color);
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-stats {
+                justify-content: center;
+            }
+
+            .nav-list {
+                flex-direction: column;
+            }
+
+            .system-overview {
+                grid-template-columns: 1fr;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cycle-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Dashboard -->
+    <header class="dashboard-header">
+        <div class="container">
+            <div class="header-content">
+                <div>
+                    <h1 class="header-title">
+                        <i class="fas fa-tachometer-alt"></i>
+                         Avícultura
+                    </h1>
+                    <p class="header-subtitle">
+                        Sistema integral para la producción eficiente de pollos de engorde. 
+                        Control total, máxima rentabilidad y bioseguridad certificada.
+                    </p>
+                    <div class="header-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Ciclo de 45 días</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Bioseguridad garantizada</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navegación -->
+    <nav class="nav-dashboard">
+        <div class="container">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active">
+                        <i class="fas fa-home nav-icon"></i>
+                        Inicio
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="medicamentos.html" class="nav-link">
+                        <i class="fas fa-pills nav-icon"></i>
+                        Medicamentos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="requerimientos.html" class="nav-link">
+                        <i class="fas fa-tools nav-icon"></i>
+                        Requerimientos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="fases.html" class="nav-link">
+                        <i class="fas fa-calendar-alt nav-icon"></i>
+                        Fases de Crianza
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="procesos.html" class="nav-link">
+                        <i class="fas fa-clipboard-list nav-icon"></i>
+                        Procesos Clave
+                       </a>
+                     </a>
+                </li>
+                <li class="nav-item">
+                    <a href="galeria.html" class="nav-link">
+                        <i class="fas fa-images nav-icon"></i>
+                        Galería
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <main class="container">
+        <!-- Tarjetas de Estadísticas -->
+        <div class="stats-cards">
+            <div class="stat-card">
+                <i class="fas fa-chart-line"></i>
+                <div class="stat-value">94 - 96%</div>
+                <div class="stat-label">Tasa de Supervivencia</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-weight"></i>
+                <div class="stat-value">4.5 - 5.5LBS</div>
+                <div class="stat-label">Peso Óptimo</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-dollar-sign"></i>
+                <div class="stat-value">25-30%</div>
+                <div class="stat-label">Rentabilidad</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-percentage"></i>
+                <div class="stat-value">1.6% - 1.8%</div>
+                <div class="stat-label">Conversión Alimenticia</div>
+            </div>
+        </div>
+
+        <!-- Overview del Sistema -->
+        <section class="dashboard-section">
+            <h2 class="section-title">
+                <i class="fas fa-rocket"></i>
+                Bienvenido al mundo avicola!
+            </h2>
+            <p class="section-subtitle">
+                La intención principal de este proyecto es que nuestro público pueda comprender de manera clara
+                        y detallada los procesos, etapas y requerimientos necesarios para la crianza de pollos de
+                        engorde. A través de la página, se brindará información útil y organizada sobre el sector
+                        avícola, incluyendo aspectos como alimentación, manejo, cuidado sanitario, infraestructura y
+                        buenas prácticas en la producción. De esta forma, buscamos educar y orientar tanto a personas
+                        interesadas en iniciar en la avicultura como a quienes deseen ampliar sus conocimientos sobre
+                        esta actividad, promoviendo una producción responsable, eficiente y sostenible.
+            </p>
+
+            <div class="system-overview">
+                <div class="overview-card">
+                    <h3 class="overview-title">
+                        <i class="fas fa-lightbulb"></i>
+                        Innovación Tecnológica
+                    </h3>
+                    <p>Sistema de monitoreo en tiempo real, alertas inteligentes y control automatizado de condiciones ambientales.</p>
+                </div>
+                <div class="overview-card">
+                    <h3 class="overview-title">
+                        <i class="fas fa-graduation-cap"></i>
+                        Formación Científica
+                    </h3>
+                    <p>Capacitación especializada basada en investigación avícola de última generación.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Módulos del Sistema -->
+        <section class="dashboard-section">
+            <h2 class="section-title">
+                <i class="fas fa-layer-group"></i>
+                Módulos del Sistema
+            </h2>
+            <p class="section-subtitle">
+                Arquitectura modular especializada para cubrir cada aspecto de la producción avícola con excelencia técnica.
+            </p>
+
+            <div class="modules-grid">
+                <!-- Módulo Medicamentos -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-badge">SALUD</div>
+                        <i class="fas fa-pills module-icon"></i>
+                        <h3 class="module-title">Medicamentos</h3>
+                    </div>
+                    <div class="module-body">
+                        <ul class="module-features">
+                            <li><i class="fas fa-check-circle"></i> Calendario interactivo 45 días</li>
+                            <li><i class="fas fa-check-circle"></i> Programa preventivo estructurado</li>
+                            <li><i class="fas fa-check-circle"></i> Control de dosis y períodos de retiro</li>
+                            <li><i class="fas fa-check-circle"></i> Base de datos de medicamentos esenciales</li>
+                        </ul>
+                        <a href="medicamentos.html" class="module-link">
+                            Acceder
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Módulo Inversión -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-badge">FINANZAS</div>
+                        <i class="fas fa-calculator module-icon"></i>
+                        <h3 class="module-title">Centro de Inversión</h3>
+                    </div>
+                    <div class="module-body">
+                        <ul class="module-features">
+                            <li><i class="fas fa-check-circle"></i> Simulador de rentabilidad</li>
+                            <li><i class="fas fa-check-circle"></i> Catálogo de equipos con precios</li>
+                            <li><i class="fas fa-check-circle"></i> Análisis de costos operativos</li>
+                            <li><i class="fas fa-check-circle"></i> Calculadora de ROI automático</li>
+                        </ul>
+                        <a href="requerimientos.html" class="module-link">
+                            Ver Calculadora
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Módulo Crianza -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-badge">EDUCACIÓN</div>
+                        <i class="fas fa-graduation-cap module-icon"></i>
+                        <h3 class="module-title">Crianza</h3>
+                    </div>
+                    <div class="module-body">
+                        <ul class="module-features">
+                            <li><i class="fas fa-check-circle"></i> Simulador de condiciones ambientales</li>
+                            <li><i class="fas fa-check-circle"></i> Curva de crecimiento interactiva</li>
+                            <li><i class="fas fa-check-circle"></i> Sistema de fases científicas</li>
+                            <li><i class="fas fa-check-circle"></i> Diagnóstico de problemas en tiempo real</li>
+                        </ul>
+                        <a href="fases.html" class="module-link">
+                            Ingresar 
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Módulo Bioseguridad -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-badge">SEGURIDAD</div>
+                        <i class="fas fa-shield-alt module-icon"></i>
+                        <h3 class="module-title">Centro de Bioseguridad</h3>
+                    </div>
+                    <div class="module-body">
+                        <ul class="module-features">
+                            <li><i class="fas fa-check-circle"></i> Checklist interactivo (42 puntos)</li>
+                            <li><i class="fas fa-check-circle"></i> Protocolos de limpieza por etapas</li>
+                            <li><i class="fas fa-check-circle"></i> Sistema científico de desinfección</li>
+                            <li><i class="fas fa-check-circle"></i> Vacío sanitario controlado</li>
+                        </ul>
+                        <a href="procesos.html" class="module-link">
+                            Ver Protocolos
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resultados Certificados -->
+        <section class="dashboard-section">
+            <h2 class="section-title">
+                <i class="fas fa-award"></i>
+                Resultados Comprobados
+            </h2>
+            <p class="section-subtitle">
+                Métricas validadas por la implementación exitosa en granjas reales, demostrando la efectividad del sistema.
+            </p>
+
+            <div class="results-grid">
+                <div class="result-card">
+                    <i class="fas fa-money-bill-wave result-icon"></i>
+                    <div class="result-number">+25%</div>
+                    <p>Incremento promedio en rentabilidad</p>
+                </div>
+                
+                <div class="result-card">
+                    <i class="fas fa-pills result-icon"></i>
+                    <div class="result-number">-40%</div>
+                    <p>Reducción en uso de medicamentos</p>
+                </div>
+                
+                <div class="result-card">
+                    <i class="fas fa-weight result-icon"></i>
+                    <div class="result-number">1.65</div>
+                    <p>Mejora en conversión alimenticia</p>
+                </div>
+                
+                <div class="result-card">
+                    <i class="fas fa-bacteria-slash result-icon"></i>
+                    <div class="result-number">99.9%</div>
+                    <p>Efectividad en control de patógenos</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Proceso del Ciclo de 45 Días -->
+        <section class="dashboard-section">
+            <h2 class="section-title">
+                <i class="fas fa-sync-alt"></i>
+                Ciclo de Producción - 45 Días
+            </h2>
+            <p class="section-subtitle">
+                Proceso optimizado desde la llegada de los pollitos hasta el punto de venta.
+            </p>
+
+            <div class="cycle-process">
+                <div class="cycle-steps">
+                    <div class="cycle-step">
+                        <div class="step-number">1-5</div>
+                        <h4>Fase de Inicio</h4>
+                        <p>Adaptación y fortalecimiento inmunológico</p>
+                    </div>
+                    <div class="cycle-step">
+                        <div class="step-number">6-28</div>
+                        <h4>Crecimiento</h4>
+                        <p>Desarrollo muscular y óseo acelerado</p>
+                    </div>
+                    <div class="cycle-step">
+                        <div class="step-number">29-42</div>
+                        <h4>Engorde</h4>
+                        <p>Acumulación de grasa y peso final</p>
+                    </div>
+                    <div class="cycle-step">
+                        <div class="step-number">43-45</div>
+                        <h4>Pre-Venta</h4>
+                        <p>Preparación para sacrificio</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <div class="footer-logo">Avicultura</div>
+                    <p class="footer-description">
+                        La solución integral más avanzada para la producción avícola moderna. 
+                        Combinamos tecnología de punta con experiencia práctica para garantizar 
+                        el éxito de tu operación.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" title="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" title="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="#" class="social-link" title="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="mailto:info@dashboardavicola.com" class="social-link" title="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Sistema Modular</h3>
+                    <ul>
+                        <li><a href="medicamentos.html"><i class="fas fa-pills"></i> Medicamentos</a></li>
+                        <li><a href="requerimientos.html"><i class="fas fa-calculator"></i> Centro de Inversión</a></li>
+                        <li><a href="fases.html"><i class="fas fa-graduation-cap"></i>Crianza</a></li>
+                        <li><a href="procesos.html"><i class="fas fa-shield-alt"></i> Bioseguridad</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Información de Contacto</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt" style="color: var(--secondary-color);"></i> República Dominicana</li>
+                        <li><i class="fas fa-phone" style="color: var(--secondary-color);"></i> +1 (809) 942-1333</li>
+                        <li><i class="fas fa-envelope" style="color: var(--secondary-color);"></i> avicultura@gmail.com</li>
+                        <li><i class="fas fa-clock" style="color: var(--secondary-color);"></i> Soporte Disponible!</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© <span id="currentYear">2025</span>  Avícultura . Todos los derechos reservados.</p>
+                <p style="margin-top: 10px; font-size: 0.9rem;">
+                    <i class="fas fa-shield-check"></i>
+                    Sistema certificado por estándares internacionales de producción avícola
+                </p>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Actualizar año actual
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            // Animación de contador para estadísticas
+            const statValues = document.querySelectorAll('.stat-value');
+            statValues.forEach(stat => {
+                const text = stat.textContent;
+                // Solo animar valores numéricos
+                if (text.match(/^\d+\.?\d*$/)) {
+                    const target = parseFloat(text);
+                    let current = 0;
+                    const increment = target / 50;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            current = target;
+                            clearInterval(timer);
+                        }
+                        stat.textContent = current.toFixed(current % 1 !== 0 ? 1 : 0);
+                    }, 30);
+                }
+            });
+            
+            // Efecto hover para tarjetas
+            const cards = document.querySelectorAll('.stat-card, .module-card, .result-card, .cycle-step');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = this.classList.contains('module-card') 
+                        ? 'translateY(-10px)' 
+                        : 'translateY(-5px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Interactividad para módulos
+            const moduleCards = document.querySelectorAll('.module-card');
+            moduleCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // Solo si no se hizo clic en un enlace
+                    if (!e.target.closest('a')) {
+                        const link = this.querySelector('.module-link');
+                        if (link) {
+                            window.location.href = link.href;
+                        }
+                    }
+                });
+            });
+            
+            // Efecto para ciclo de producción
+            const cycleSteps = document.querySelectorAll('.cycle-step');
+            cycleSteps.forEach(step => {
+                step.addEventListener('click', function() {
+                    const stepNum = this.querySelector('.step-number').textContent;
+                    const title = this.querySelector('h4').textContent;
+                    const desc = this.querySelector('p').textContent;
+                    
+                    alert(`Fase ${stepNum}: ${title}\n\n${desc}\n\nHaz clic en "Academia de Crianza" para ver detalles completos.`);
+                });
+            });
+            
+            // Navegación activa
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                if (currentPage === linkHref) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+            
+            // Smooth scroll para enlaces internos
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Tooltip para redes sociales
+            const socialLinks = document.querySelectorAll('.social-link');
+            socialLinks.forEach(link => {
+                link.addEventListener('mouseenter', function() {
+                    const title = this.getAttribute('title');
+                    if (title) {
+                        const tooltip = document.createElement('div');
+                        tooltip.textContent = title;
+                        tooltip.style.cssText = `
+                            position: absolute;
+                            background: var(--primary-color);
+                            color: white;
+                            padding: 5px 10px;
+                            border-radius: 4px;
+                            font-size: 0.8rem;
+                            transform: translateY(-30px);
+                            z-index: 1000;
+                        `;
+                        this.appendChild(tooltip);
+                        
+                        this.addEventListener('mouseleave', function() {
+                            tooltip.remove();
+                        }, { once: true });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

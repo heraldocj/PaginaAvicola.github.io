@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Fases de crianza para pollos de engorde - Dashboard Avícola">
+    <title>Fases de Crianza - Dashboard Avícola</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap">
+    <style>
+        /* Mismos estilos del dashboard original */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --phase-1: #2ecc71;
+            --phase-2: #3498db;
+            --phase-3: #e74c3c;
+            --phase-4: #f39c12;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --border-radius: 10px;
+            --box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header estilo dashboard */
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-color), #1a252f);
+            color: white;
+            padding: 30px 0;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .header-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        /* Navegación */
+        .nav-dashboard {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            flex: 1;
+            text-align: center;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 18px 15px;
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-link:hover {
+            background-color: #f8f9fa;
+            color: var(--secondary-color);
+        }
+
+        .nav-link.active {
+            color: var(--secondary-color);
+            border-bottom-color: var(--secondary-color);
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+
+        .nav-icon {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+
+        /* Secciones principales */
+        .dashboard-section {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--secondary-color);
+        }
+
+        .section-subtitle {
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+
+        /* Tarjetas de estadísticas */
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Controles del simulador */
+        .simulator-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .control-group {
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .control-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        .slider {
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        .slider-values {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Navegación de fases */
+        .phase-navigation {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .phase-nav-btn {
+            padding: 15px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+
+        .phase-1-btn { background-color: var(--phase-1); color: white; }
+        .phase-2-btn { background-color: var(--phase-2); color: white; }
+        .phase-3-btn { background-color: var(--phase-3); color: white; }
+        .phase-4-btn { background-color: var(--phase-4); color: white; }
+
+        .phase-nav-btn:hover {
+            transform: translateY(-3px);
+            opacity: 0.9;
+        }
+
+        .phase-nav-btn.active {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Contenido de fases */
+        .phase-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .phase-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .phase-header {
+            background: linear-gradient(135deg, var(--phase-1), #27ae60);
+            color: white;
+            padding: 20px;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            margin-bottom: 20px;
+        }
+
+        .phase-2 .phase-header { background: linear-gradient(135deg, var(--phase-2), #2980b9); }
+        .phase-3 .phase-header { background: linear-gradient(135deg, var(--phase-3), #c0392b); }
+        .phase-4 .phase-header { background: linear-gradient(135deg, var(--phase-4), #d35400); }
+
+        .phase-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Tarjetas de información */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            border-top: 4px solid var(--secondary-color);
+        }
+
+        .info-card.important {
+            border-top-color: var(--accent-color);
+        }
+
+        .info-card.success {
+            border-top-color: var(--success-color);
+        }
+
+        .info-card.warning {
+            border-top-color: var(--warning-color);
+        }
+
+        .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-list {
+            list-style: none;
+        }
+
+        .card-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-list li:last-child {
+            border-bottom: none;
+        }
+
+        .card-list i {
+            color: var(--secondary-color);
+            min-width: 20px;
+        }
+
+        /* Tablas */
+        .phase-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+        }
+
+        .phase-table thead {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .phase-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .phase-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .phase-table tbody tr {
+            transition: var(--transition);
+        }
+
+        .phase-table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .phase-indicator {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        /* Curva de crecimiento */
+        .curve-container {
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin: 30px 0;
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .curve-point {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            border: 3px solid white;
+            cursor: pointer;
+            transform: translate(-50%, 50%);
+        }
+
+        .curve-point:hover {
+            transform: translate(-50%, 50%) scale(1.3);
+        }
+
+        /* Imágenes de fases */
+        .phase-image-container {
+            margin: 30px 0;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            position: relative;
+        }
+
+        .phase-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 15px;
+            font-size: 0.9rem;
+        }
+
+        /* Navegación entre páginas */
+        .page-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            padding: 20px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            background: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .nav-btn.prev {
+            background: #95a5a6;
+        }
+
+        /* Footer */
+        .dashboard-footer {
+            text-align: center;
+            padding: 25px 0;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+
+        .footer-note {
+            font-style: italic;
+            margin-top: 15px;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-stats {
+                justify-content: center;
+            }
+
+            .nav-list {
+                flex-direction: column;
+            }
+
+            .phase-navigation {
+                grid-template-columns: 1fr;
+            }
+
+            .info-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .page-navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-btn {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Dashboard -->
+    <header class="dashboard-header">
+        <div class="container">
+            <div class="header-content">
+                <div>
+                    <h1 class="header-title">
+                        <i class="fas fa-calendar-alt"></i>
+                        Fases de Crianza
+                    </h1>
+                    <p class="header-subtitle">
+                        Guía completa del desarrollo del pollo de engorde en 45 días. Sistema modular por fases científicas.
+                    </p>
+                    <div class="header-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Ciclo de 45 días</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-layer-group"></i>
+                            <span>4 fases científicas</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navegación -->
+    <nav class="nav-dashboard">
+        <div class="container">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-home nav-icon"></i>
+                        Inicio
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="medicamentos.html" class="nav-link">
+                        <i class="fas fa-pills nav-icon"></i>
+                        Medicamentos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="requerimientos.html" class="nav-link">
+                        <i class="fas fa-tools nav-icon"></i>
+                        Requerimientos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="fases.html" class="nav-link active">
+                        <i class="fas fa-calendar-alt nav-icon"></i>
+                        Fases de Crianza
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="procesos.html" class="nav-link">
+                        <i class="fas fa-clipboard-list nav-icon"></i>
+                        Procesos Clave
+                        </a>
+                     </a>
+                </li>
+                <li class="nav-item">
+                    <a href="galeria.html" class="nav-link">
+                        <i class="fas fa-images nav-icon"></i>
+                        Galería
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <main class="container">
+        <!-- Tarjetas de Estadísticas -->
+        <div class="stats-cards">
+            <div class="stat-card">
+                <i class="fas fa-calendar-day"></i>
+                <div class="stat-value">45</div>
+                <div class="stat-label">Días del ciclo</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-layer-group"></i>
+                <div class="stat-value">4</div>
+                <div class="stat-label">Fases científicas</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-weight"></i>
+                <div class="stat-value">5.5- 6.5LBS</div>
+                <div class="stat-label">Peso objetivo</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-percentage"></i>
+                <div class="stat-value">1.6 - 1.8</div>
+                <div class="stat-label">Conversión alimenticia</div>
+            </div>
+        </div>
+
+        <!-- Simulador de Condiciones -->
+        <section class="dashboard-section">
+            <h2 class="section-title">
+                <i class="fas fa-sliders-h"></i>
+                Simulador de Condiciones
+            </h2>
+            <p class="section-subtitle">
+                Ajusta los parámetros y observa cómo afectan el desarrollo de tus pollos
+            </p>
+
+            <div class="simulator-controls">
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-calendar-day"></i>
+                        Día del ciclo
+                    </label>
+                    <input type="range" min="1" max="45" value="1" class="slider" id="daySlider">
+                    <div class="slider-values">
+                        <span>Día 1</span>
+                        <span>Día 23</span>
+                        <span>Día 45</span>
+                    </div>
+                    <div id="currentDay" style="text-align: center; font-weight: 700; font-size: 1.3rem; color: var(--primary-color); margin-top: 10px;">
+                        Día 1 - Fase de Inicio
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-temperature-high"></i>
+                        Temperatura (°C)
+                    </label>
+                    <input type="range" min="20" max="35" value="33" class="slider" id="tempSlider">
+                    <div class="slider-values">
+                        <span>20°C</span>
+                        <span>28°C</span>
+                        <span>35°C</span>
+                    </div>
+                    <div id="currentTemp" style="text-align: center; font-weight: 700; font-size: 1.3rem; color: var(--accent-color); margin-top: 10px;">
+                        33°C - Óptima
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">
+                        <i class="fas fa-tint"></i>
+                        Humedad Relativa (%)
+                    </label>
+                    <input type="range" min="40" max="80" value="65" class="slider" id="humiditySlider">
+                    <div class="slider-values">
+                        <span>40%</span>
+                        <span>60%</span>
+                        <span>80%</span>
+                    </div>
+                    <div id="currentHumidity" style="text-align: center; font-weight: 700; font-size: 1.3rem; color: var(--secondary-color); margin-top: 10px;">
+                        65% - Ideal
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); padding: 20px; border-radius: var(--border-radius); margin-top: 20px;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <i class="fas fa-lightbulb" style="color: var(--warning-color); font-size: 1.5rem;"></i>
+                    <div>
+                        <strong style="color: var(--primary-color);">Consejo del experto:</strong>
+                        <span id="expertTip" style="color: #666;">
+                            Los primeros 14 días son críticos para el desarrollo del sistema digestivo. Mantén la temperatura entre 32-35°C.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navegación de Fases -->
+        <section class="dashboard-section">
+            <h2 class="section-title">
+                <i class="fas fa-layer-group"></i>
+                Sistema de Fases Científicas
+            </h2>
+            
+            <div class="phase-navigation">
+                <button class="phase-nav-btn phase-1-btn active" data-phase="1">
+                    <i class="fas fa-baby"></i>
+                    Fase 1: Inicio (Día 1-14)
+                </button>
+                <button class="phase-nav-btn phase-2-btn" data-phase="2">
+                    <i class="fas fa-seedling"></i>
+                    Fase 2: Crecimiento (Día 15-28)
+                </button>
+                <button class="phase-nav-btn phase-3-btn" data-phase="3">
+                    <i class="fas fa-weight"></i>
+                    Fase 3: Engorde (Día 29-42)
+                </button>
+                <button class="phase-nav-btn phase-4-btn" data-phase="4">
+                    <i class="fas fa-flag-checkered"></i>
+                    Fase 4: Final (Día 43-45)
+                </button>
+            </div>
+
+            <!-- Fase 1: Inicio -->
+            <div class="phase-content phase-1 active">
+                <div class="phase-header">
+                    <h3 class="phase-title">
+                        <i class="fas fa-baby"></i>
+                        Fase de Inicio (Cría) - Día 1 al 14
+                    </h3>
+                    <p style="opacity: 0.9;">Fundación del sistema inmunológico y digestivo</p>
+                </div>
+
+                <!-- Imagen de fase -->
+                <div class="phase-image-container">
+                    <img src="imgs/incubadora.png">
+                    <div class="image-caption">
+                        Pollitos en fase de inicio - Requieren atención constante y temperatura controlada
+                    </div>
+                </div>
+
+                <div class="info-cards">
+                    <div class="info-card important">
+                        <h4 class="card-title">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Aspectos Críticos
+                        </h4>
+                        <ul class="card-list">
+                            <li><i class="fas fa-temperature-high"></i> Temperatura constante 32-35°C</li>
+                            <li><i class="fas fa-lightbulb"></i> 23 horas de luz primera semana</li>
+                            <li><i class="fas fa-utensils"></i> Enseñar a comer y beber activamente</li>
+                            <li><i class="fas fa-shield-alt"></i> Sistema inmune inmaduro</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h4 class="card-title">
+                            <i class="fas fa-prescription-bottle"></i>
+                            Programa de Salud
+                        </h4>
+                        <ul class="card-list">
+                            <li><i class="fas fa-capsules"></i> Día 1-5: Multivitamínico en agua</li>
+                            <li><i class="fas fa-syringe"></i> Día 6-8: Amoxicilina preventiva</li>
+                            <li><i class="fas fa-vial"></i> Día 14-16: Anticoccidial</li>
+                            <li><i class="fas fa-heartbeat"></i> Monitorear mortalidad diaria (<2%)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-card success">
+                        <h4 class="card-title">
+                            <i class="fas fa-check-circle"></i>
+                            Indicadores de Éxito
+                        </h4>
+                        <ul class="card-list">
+                            <li><i class="fas fa-weight"></i> Peso día 7: 180-200g</li>
+                            <li><i class="fas fa-utensils"></i> Buches llenos al 95%</li>
+                            <li><i class="fas fa-ruler-combined"></i> Distribución uniforme en galpón</li>
+                            <li><i class="fas fa-chart-line"></i> Mortalidad < 2%</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fase 2: Crecimiento -->
+            <div class="phase-content phase-2">
+                <div class="phase-header">
+                    <h3 class="phase-title">
+                        <i class="fas fa-seedling"></i>
+                        Fase de Crecimiento - Día 15 al 28
+                    </h3>
+                    <p style="opacity: 0.9;">Desarrollo muscular, óseo y sistema inmunológico</p>
+                </div>
+
+                <!-- Imagen de fase -->
+                <div class="phase-image-container">
+                    <img src="imgs/fase 2.jpeg">
+                    <div class="image-caption">
+                        Pollos en fase de crecimiento - Desarrollo activo muscular y óseo
+                    </div>
+                </div>
+
+                <div class="info-cards">
+                    <div class="info-card important">
+                        <h4 class="card-title">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Aspectos Críticos
+                        </h4>
+                        <ul class="card-list">
+                            <li><i class="fas fa-expand-arrows-alt"></i> Control de densidad (12 pollos/m²)</li>
+                            <li><i class="fas fa-wind"></i> Ventilación adecuada para amoníaco</li>
+                            <li><i class="fas fa-bug"></i> Prevención de coccidiosis</li>
+                            <li><i class="fas fa-utensils"></i> Cambio a alimento crecimiento</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h4 class="card-title">
+                            <i class="fas fa-chart-line"></i>
+                            Crecimiento Esperado
+                        </h4>
+                        <ul class="card-list">
+                            <li><i class="fas fa-weight"></i> Peso día 21: 900-1000g</li>
+                            <li><i class="fas fa-ruler-vertical"></i> Incremento diario: 45-50g</li>
+                            <li><i class="fas fa-hamburger"></i> Consumo diario: 85-100g/pollo</li>
+                            <li><i class="fas fa-percentage"></i> Conversión alimenticia: 1.5-1.6</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h4 class="card-title">
+                            <i class="fas fa-tools"></i>
+                            Ajustes de Manejo
+                        </h4>
+                        <ul class="card-list">
+                            <li><i class="fas fa-arrows-alt-v"></i> Subir comederos y bebederos</li>
+                            <li><i class="fas fa-sun"></i> Reducir horas de luz a 18-20</li>
+                            <li><i class="fas fa-temperature-low"></i> Bajar temperatura a 24-26°C</li>
+                            <li><i class="fas fa-layer-group"></i> Remover cama húmeda</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fase 3: Engorde -->
+            <div class="phase-content phase-3">
+                <div class="phase-header">
+                    <h3 class="phase-title">
+                        <i class="fas fa-weight"></i>
+                        Fase de Engorde - Día 29 al 42
+                    </h3>
+                    <p style="opacity: 0.9;">Acumulación de grasa y peso final optimizado</p>
+                </div>
+
+                <!-- Imagen de fase -->
+                <div class="phase-image-container">
+                    <img src="imgs/fase 3.jpeg">
+                    <div class="image-caption">
+                        Pollos en fase de engorde - Máximo desarrollo de masa muscular
+                    </div>
+                </div>
+
+                <div class="info-cards">
+                    <div class="info-card important">
+                        <h4 class="card-title">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Riesgos Principales
+                        </h4>
+                        <ul class="card-list">
+                            <li><i class="fas fa-fire"></i> Estrés por calor</li>
+                            <li><i class="fas fa-lungs"></i> Problemas respiratorios</li>
+                            <li><i class="fas fa-weight"></i> Cojeras por sobrepeso</li>
+                            <li><i class="fas fa-tint"></i> Cama húmeda</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h4 class="card-title">
+                            <i class="fas fa-percentage"></i>
+                            Optimización Alimenticia
+                        </h4>
+                        <ul class="card-list">
+                            <li><i class="fas fa-bread-slice"></i> Alimento finalizador (18-20% proteína)</li>
+                            <li><i class="fas fa-calculator"></i> Conversión objetivo: 1.7-1.8</li>
+                            <li><i class="fas fa-weight"></i> Consumo diario: 160-180g/pollo</li>
+                            <li><i class="fas fa-chart-line"></i> Ganancia diaria: 60-70g</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-card success">
+                        <h4 class="card-title">
+                            <i class="fas fa-tachometer-alt"></i>
+                            Control de Ambiente
+                        </h4>
+                        <ul class="card-list">
+                            <li><i class="fas fa-temperature-low"></i> Temperatura: 20-22°C</li>
+                            <li><i class="fas fa-wind"></i> Ventilación máxima</li>
+                            <li><i class="fas fa-tint"></i> Humedad: 60-70%</li>
+                            <li><i class="fas fa-lightbulb"></i> Luz: 16-18 horas</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fase 4: Final -->
+            <div class="phase-content phase-4">
+                <div class="phase-header">
+                    <h3 class="phase-title">
+                        <i class="fas fa-flag-checkered"></i>
+                        Fase Final (Pre-venta) - Día 43 al 45
+                    </h3>
+                    <p style="opacity: 0.9;">Preparación para sacrificio y optimización de calidad</p>
+                </div>
+
+                <!-- Imagen de fase -->
+                <div class="phase-image-container">
+                    <img src="imgs/fase 4.jpeg">
+                    <div class="image-caption">
+                        Pollos listos para mercado - Peso óptimo y calidad premium
+                    </div>
+                </div>
+
+                <div class="info-cards">
+                    <div class="info-card important">
+                        <h4 class="card-title">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Consideraciones Finales
+                        </h4>
+                        <ul class="card-list">
+                            <li><i class="fas fa-calendar-times"></i> Respetar período de retiro de medicamentos</li>
+                            <li><i class="fas fa-clock"></i> Ayuno de 8-12 horas antes del sacrificio</li>
+                            <li><i class="fas fa-truck-loading"></i> Reducción de estrés por manejo</li>
+                            <li><i class="fas fa-weight"></i> Peso objetivo: 2.8-3.2 kg</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h4 class="card-title">
+                            <i class="fas fa-clipboard-check"></i>
+                            Evaluación Final del Lote
+                        </h4>
+                        <ul class="card-list">
+                            <li><i class="fas fa-balance-scale"></i> Uniformidad del lote (>85%)</li>
+                            <li><i class="fas fa-percentage"></i> Conversión alimenticia final</li>
+                            <li><i class="fas fa-calculator"></i> Mortalidad acumulada (<5%)</li>
+                            <li><i class="fas fa-dollar-sign"></i> Índice de productividad</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-card success">
+                        <h4 class="card-title">
+                            <i class="fas fa-award"></i>
+                            Indicadores de Calidad
+                        </h4>
+                        <ul class="card-list">
+                            <li><i class="fas fa-feather"></i> Plumas limpias y completas</li>
+                            <li><i class="fas fa-paw"></i> Patas sanas sin lesiones</li>
+                            <li><i class="fas fa-lungs"></i> Sin problemas respiratorios</li>
+                            <li><i class="fas fa-eye"></i> Ojos brillantes y activos</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparador de Fases -->
+        <section class="dashboard-section">
+            <h2 class="section-title">
+                <i class="fas fa-balance-scale"></i>
+                Comparador Científico de Fases
+                <img src="imgs/conversion.png" alt="">
+            </h2>
+
+            <table class="phase-table">
+                <thead>
+                    <tr>
+                        <th>Parámetro</th>
+                        <th><span class="phase-indicator" style="background: var(--phase-1);"></span> Fase 1</th>
+                        <th><span class="phase-indicator" style="background: var(--phase-2);"></span> Fase 2</th>
+                        <th><span class="phase-indicator" style="background: var(--phase-3);"></span> Fase 3</th>
+                        <th><span class="phase-indicator" style="background: var(--phase-4);"></span> Fase 4</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Temperatura</strong></td>
+                        <td>32-35°C</td>
+                        <td>24-26°C</td>
+                        <td>20-22°C</td>
+                        <td>Ambiente</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Proteína alimento</strong></td>
+                        <td>22-24%</td>
+                        <td>20-22%</td>
+                        <td>18-20%</td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Consumo diario</strong></td>
+                        <td>15-25g</td>
+                        <td>85-100g</td>
+                        <td>160-180g</td>
+                        <td>0g (ayuno)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Horas de luz</strong></td>
+                        <td>23 horas</td>
+                        <td>18-20 horas</td>
+                        <td>16-18 horas</td>
+                        <td>Natural</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Espacio mínimo</strong></td>
+                        <td>0.05 m²/pollo</td>
+                        <td>0.08 m²/pollo</td>
+                        <td>0.10 m²/pollo</td>
+                        <td>0.12 m²/pollo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Humedad ideal</strong></td>
+                        <td>60-70%</td>
+                        <td>50-60%</td>
+                        <td>60-70%</td>
+                        <td>40-50%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ventilación</strong></td>
+                        <td>Mínima</td>
+                        <td>Moderada</td>
+                        <td>Máxima</td>
+                        <td>Normal</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Guía de Problemas y Soluciones -->
+        <section class="dashboard-section">
+            <h2 class="section-title">
+                <i class="fas fa-stethoscope"></i>
+                Diagnóstico y Solución de Problemas
+            </h2>
+
+            <div class="info-cards">
+                <div class="info-card warning">
+                    <h4 class="card-title">
+                        <i class="fas fa-temperature-high"></i>
+                        Pollos amontonados
+                    </h4>
+                    <p><strong>Diagnóstico:</strong> Frío o corriente de aire</p>
+                    <p><strong>Solución:</strong> Aumentar temperatura 2-3°C, verificar cortinas y calefactores</p>
+                </div>
+                
+                <div class="info-card important">
+                    <h4 class="card-title">
+                        <i class="fas fa-tint"></i>
+                        Cama húmeda
+                    </h4>
+                    <p><strong>Diagnóstico:</strong> Exceso de humedad o mala ventilación</p>
+                    <p><strong>Solución:</strong> Mejorar ventilación, añadir viruta seca, revisar bebederos</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4 class="card-title">
+                        <i class="fas fa-weight"></i>
+                        Bajo consumo de alimento
+                    </h4>
+                    <p><strong>Diagnóstico:</strong> Estrés, enfermedad o mala calidad de alimento</p>
+                    <p><strong>Solución:</strong> Revisar salud, temperatura, y calidad del alimento</p>
+                </div>
+                
+                <div class="info-card warning">
+                    <h4 class="card-title">
+                        <i class="fas fa-lungs"></i>
+                        Problemas respiratorios
+                    </h4>
+                    <p><strong>Diagnóstico:</strong> Alta concentración de amoníaco</p>
+                    <p><strong>Solución:</strong> Aumentar ventilación, cambiar cama, reducir humedad</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navegación entre páginas -->
+        <div class="page-navigation">
+            <a href="requerimientos.html" class="nav-btn prev">
+                <i class="fas fa-arrow-left"></i>
+                Anterior: Requerimientos
+            </a>
+            
+            <div style="text-align: center;">
+                <div style="font-size: 0.9rem; color: #666; margin-bottom: 5px;">
+                    <i class="fas fa-calendar-alt"></i>
+                    Fases de Crianza
+                </div>
+                <div style="font-size: 1.1rem; font-weight: 600; color: var(--primary-color);">
+                    Sistema de 45 días
+                </div>
+            </div>
+            
+            <a href="procesos.html" class="nav-btn">
+                Siguiente: Procesos Clave
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <!-- Nota final -->
+        <section class="dashboard-section" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+            <p class="footer-note">
+                <i class="fas fa-graduation-cap" style="margin-right: 10px;"></i>
+                Educación avícola profesional • Investigación aplicada • Tecnología de punta
+            </p>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="container">
+            <p>© <span id="currentYear">2023</span> Guía Práctica de Avicultura | Dashboard de Fases de Crianza</p>
+            <p style="margin-top: 10px; font-size: 0.9rem; color: #888;">
+                <i class="fas fa-graduation-cap"></i>
+                45 días de aprendizaje • 26 parámetros controlados • 18 soluciones prácticas
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Actualizar año actual
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            // Elementos del simulador
+            const daySlider = document.getElementById('daySlider');
+            const tempSlider = document.getElementById('tempSlider');
+            const humiditySlider = document.getElementById('humiditySlider');
+            const currentDay = document.getElementById('currentDay');
+            const currentTemp = document.getElementById('currentTemp');
+            const currentHumidity = document.getElementById('currentHumidity');
+            const expertTip = document.getElementById('expertTip');
+            
+            // Navegación de fases
+            const phaseButtons = document.querySelectorAll('.phase-nav-btn');
+            const phaseContents = document.querySelectorAll('.phase-content');
+            
+            // Actualizar simulador
+            function updateSimulator() {
+                const day = parseInt(daySlider.value);
+                const temp = parseInt(tempSlider.value);
+                const humidity = parseInt(humiditySlider.value);
+                
+                // Determinar fase según el día
+                let phase, phaseName, tempStatus, humidityStatus, tip;
+                
+                if (day <= 14) {
+                    phase = 1;
+                    phaseName = "Fase de Inicio";
+                    tempStatus = temp >= 32 && temp <= 35 ? "Óptima" : "Fuera de rango";
+                    humidityStatus = humidity >= 60 && humidity <= 70 ? "Ideal" : "Ajustar";
+                    tip = "Los primeros 14 días son críticos. Mantén temperatura 32-35°C y humedad 60-70% para desarrollo digestivo.";
+                } else if (day <= 28) {
+                    phase = 2;
+                    phaseName = "Fase de Crecimiento";
+                    tempStatus = temp >= 24 && temp <= 26 ? "Óptima" : "Ajustar";
+                    humidityStatus = humidity >= 50 && humidity <= 60 ? "Ideal" : "Fuera de rango";
+                    tip = "Fase de máximo crecimiento muscular. Controla densidad (12 pollos/m²) y provee ventilación adecuada.";
+                } else if (day <= 42) {
+                    phase = 3;
+                    phaseName = "Fase de Engorde";
+                    tempStatus = temp >= 20 && temp <= 22 ? "Óptima" : "Peligro estrés térmico";
+                    humidityStatus = humidity >= 60 && humidity <= 70 ? "Ideal" : "Riesgo respiratorio";
+                    tip = "Máxima acumulación de grasa. Previene estrés por calor con buena ventilación y agua fresca.";
+                } else {
+                    phase = 4;
+                    phaseName = "Fase Final";
+                    tempStatus = "Ambiente natural";
+                    humidityStatus = "Preparación para venta";
+                    tip = "Respetar período de retiro de medicamentos. Ayuno de 8-12 horas antes del sacrificio.";
+                }
+                
+                // Actualizar display
+                currentDay.textContent = `Día ${day} - ${phaseName}`;
+                currentTemp.textContent = `${temp}°C - ${tempStatus}`;
+                currentHumidity.textContent = `${humidity}% - ${humidityStatus}`;
+                expertTip.textContent = tip;
+                
+                // Mostrar fase correspondiente
+                showPhase(phase);
+            }
+            
+            // Mostrar fase específica
+            function showPhase(phaseNumber) {
+                // Ocultar todas las fases
+                phaseContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Remover active de todos los botones
+                phaseButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Mostrar fase seleccionada
+                const phaseContent = document.querySelector(`.phase-${phaseNumber}`);
+                const phaseButton = document.querySelector(`.phase-${phaseNumber}-btn`);
+                
+                if (phaseContent) phaseContent.classList.add('active');
+                if (phaseButton) phaseButton.classList.add('active');
+            }
+            
+            // Event listeners para sliders
+            daySlider.addEventListener('input', updateSimulator);
+            tempSlider.addEventListener('input', updateSimulator);
+            humiditySlider.addEventListener('input', updateSimulator);
+            
+            // Event listeners para botones de fase
+            phaseButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const phase = this.getAttribute('data-phase');
+                    
+                    // Actualizar slider de día según fase
+                    switch(phase) {
+                        case '1':
+                            daySlider.value = 7;
+                            break;
+                        case '2':
+                            daySlider.value = 21;
+                            break;
+                        case '3':
+                            daySlider.value = 35;
+                            break;
+                        case '4':
+                            daySlider.value = 44;
+                            break;
+                    }
+                    
+                    updateSimulator();
+                });
+            });
+            
+            // Interactividad para imágenes
+            const phaseImages = document.querySelectorAll('.phase-image');
+            phaseImages.forEach(image => {
+                image.addEventListener('click', function() {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = 'image/*';
+                    
+                    input.onchange = function(e) {
+                        const file = e.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function(event) {
+                                image.src = event.target.result;
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    };
+                    
+                    input.click();
+                });
+            });
+            
+            // Efecto hover para filas de tabla
+            const tableRows = document.querySelectorAll('.phase-table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#f8f9fa';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+            
+            // Inicializar simulador
+            updateSimulator();
+        });
+    </script>
+</body>
+</html>

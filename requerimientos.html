@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Requerimientos técnicos para pollos de engorde - Dashboard Avícola">
+    <title>Requerimientos Técnicos - Dashboard Avícola</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap">
+    <style>
+        /* Mismos estilos CSS del dashboard original */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --border-radius: 10px;
+            --box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header estilo dashboard */
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-color), #1a252f);
+            color: white;
+            padding: 30px 0;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .header-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        /* Navegación */
+        .nav-dashboard {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            flex: 1;
+            text-align: center;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 18px 15px;
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-link:hover {
+            background-color: #f8f9fa;
+            color: var(--secondary-color);
+        }
+
+        .nav-link.active {
+            color: var(--secondary-color);
+            border-bottom-color: var(--secondary-color);
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+
+        .nav-icon {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+
+        /* Secciones principales */
+        .dashboard-section {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--secondary-color);
+        }
+
+        .section-subtitle {
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+
+        /* Tarjetas de estadísticas */
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Tablas estilo dashboard */
+        .requirements-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+        }
+
+        .requirements-table thead {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .requirements-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .requirements-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .requirements-table tbody tr {
+            transition: var(--transition);
+        }
+
+        .requirements-table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .week-range {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .week-badge {
+            background-color: var(--success-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* Tarjetas de información */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            border-top: 4px solid var(--secondary-color);
+        }
+
+        .info-card.important {
+            border-top-color: var(--accent-color);
+        }
+
+        .info-card.success {
+            border-top-color: var(--success-color);
+        }
+
+        .info-card.warning {
+            border-top-color: var(--warning-color);
+        }
+
+        .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-list {
+            list-style: none;
+        }
+
+        .card-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-list li:last-child {
+            border-bottom: none;
+        }
+
+        .card-list i {
+            color: var(--secondary-color);
+            min-width: 20px;
+        }
+
+        /* Equipos grid */
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .equipment-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .equipment-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .equipment-image {
+            height: 180px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--primary-color);
+        }
+
+        .equipment-image i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.7;
+        }
+
+        .equipment-info {
+            padding: 20px;
+        }
+
+        .equipment-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        .equipment-price {
+            font-size: 1.2rem;
+            color: var(--success-color);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .equipment-specs {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        .dashboard-footer {
+            text-align: center;
+            padding: 25px 0;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+
+        .footer-note {
+            font-style: italic;
+            margin-top: 15px;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-stats {
+                justify-content: center;
+            }
+
+            .nav-list {
+                flex-direction: column;
+            }
+
+            .requirements-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .info-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .equipment-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Dashboard -->
+    <header class="dashboard-header">
+        <div class="container">
+            <div class="header-content">
+                <div>
+                    <h1 class="header-title">
+                        <i class="fas fa-tools"></i>
+                        Requerimientos Técnicos
+                    </h1>
+                    <p class="header-subtitle">
+                        Equipamiento, infraestructura y condiciones necesarias para una producción avícola eficiente
+                    </p>
+                    <div class="header-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-thermometer-half"></i>
+                            <span>Control de temperatura</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-tint"></i>
+                            <span>Gestión de humedad</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navegación -->
+    <nav class="nav-dashboard">
+        <div class="container">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-home nav-icon"></i>
+                        Inicio
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="medicamentos.html" class="nav-link">
+                        <i class="fas fa-pills nav-icon"></i>
+                        Medicamentos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="requerimientos.html" class="nav-link active">
+                        <i class="fas fa-tools nav-icon"></i>
+                        Requerimientos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="fases.html" class="nav-link">
+                        <i class="fas fa-calendar-alt nav-icon"></i>
+                        Fases de Crianza
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="procesos.html" class="nav-link">
+                        <i class="fas fa-clipboard-list nav-icon"></i>
+                        Procesos Clave
+                        </a>
+                     </a>
+                </li>
+                <li class="nav-item">
+                    <a href="galeria.html" class="nav-link">
+                        <i class="fas fa-images nav-icon"></i>
+                        Galería
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <main class="container">
+        <!-- Tarjetas de Estadísticas -->
+        <div class="stats-cards">
+            <div class="stat-card">
+                <i class="fas fa-thermometer-half"></i>
+                <div class="stat-value">32-35°C</div>
+                <div class="stat-label">Temperatura inicial</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-tint"></i>
+                <div class="stat-value">60-70%</div>
+                <div class="stat-label">Humedad relativa</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-ruler-combined"></i>
+                <div class="stat-value">10-12</div>
+                <div class="stat-label">Pollos/m² final</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-lightbulb"></i>
+                <div class="stat-value">24h</div>
+                <div class="stat-label">Luz primeros días</div>
+            </div>
+        </div>
+
+        <!-- Sección de Condiciones Ambientales -->
+        <section class="dashboard-section">
+            <h2 class="section-title">
+                <i class="fas fa-cloud-sun"></i>
+                Condiciones Ambientales
+            </h2>
+            <p class="section-subtitle">
+                Parámetros críticos que deben mantenerse durante todo el ciclo de producción
+            </p>
+
+            <table class="requirements-table">
+                <thead>
+                    <tr>
+                        <th>Edad (días)</th>
+                        <th>Temperatura (°C)</th>
+                        <th>Humedad (%)</th>
+                        <th>Ventilación</th>
+                        <th>Iluminación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="week-range">
+                                <span class="week-badge">1-7</span>
+                            </div>
+                        </td>
+                        <td><strong>32-35</strong></td>
+                        <td>60-70%</td>
+                        <td>Mínima (solo renovación)</td>
+                        <td>24 horas luz</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="week-range">
+                                <span class="week-badge">8-14</span>
+                            </div>
+                        </td>
+                        <td><strong>29-32</strong></td>
+                        <td>60-65%</td>
+                        <td>Suave continua</td>
+                        <td>23 horas luz</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="week-range">
+                                <span class="week-badge">15-28</span>
+                            </div>
+                        </td>
+                        <td><strong>24-28</strong></td>
+                        <td>50-60%</td>
+                        <td>Moderada</td>
+                        <td>18-20 horas</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="week-range">
+                                <span class="week-badge">29-45</span>
+                            </div>
+                        </td>
+                        <td><strong>20-24</strong></td>
+                        <td>50-55%</td>
+                        <td>Intensa (enfriamiento)</td>
+                        <td>16-18 horas</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Sección de Espacio y Densidad -->
+        <section class="dashboard-section">
+            <h2 class="section-title">
+                <i class="fas fa-ruler-combined"></i>
+                Espacio y Densidad
+            </h2>
+
+            <div class="info-cards">
+                <!-- Densidad de población -->
+                <div class="info-card success">
+                    <h3 class="card-title">
+                        <i class="fas fa-chart-area"></i>
+                        Densidad Recomendada
+                    </h3>
+                    <ul class="card-list">
+                        <li>
+                            <i class="fas fa-arrow-up"></i>
+                            Semana 1: 50 pollos/m²
+                        </li>
+                        <li>
+                            <i class="fas fa-arrow-down"></i>
+                            Semana 2: 30 pollos/m²
+                        </li>
+                        <li>
+                            <i class="fas fa-arrow-down"></i>
+                            Semana 3: 20 pollos/m²
+                        </li>
+                        <li>
+                            <i class="fas fa-arrow-down"></i>
+                            Semana 6: 10-12 pollos/m²
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Espacio de comedero -->
+                <div class="info-card">
+                    <h3 class="card-title">
+                        <i class="fas fa-utensils"></i>
+                        Espacio de Comedero
+                    </h3>
+                    <ul class="card-list">
+                        <li>
+                            <i class="fas fa-ruler"></i>
+                            Semana 1: 3 cm/pollo
+                        </li>
+                        <li>
+                            <i class="fas fa-ruler"></i>
+                            Semana 2: 5 cm/pollo
+                        </li>
+                        <li>
+                            <i class="fas fa-ruler"></i>
+                            Semana 3: 8 cm/pollo
+                        </li>
+                        <li>
+                            <i class="fas fa-ruler"></i>
+                            Semana 6: 12 cm/pollo
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Espacio de bebedero -->
+                <div class="info-card warning">
+                    <h3 class="card-title">
+                        <i class="fas fa-tint"></i>
+                        Espacio de Bebedero
+                    </h3>
+                    <ul class="card-list">
+                        <li>
+                            <i class="fas fa-glass-whiskey"></i>
+                            Nipple: 10-12 pollos/nipple
+                        </li>
+                        <li>
+                            <i class="fas fa-glass-whiskey"></i>
+                            Campana: 50 pollos/bebedero
+                        </li>
+                        <li>
+                            <i class="fas fa-glass-whiskey"></i>
+                            Copa: 15 pollos/copa
+                        </li>
+                        <li>
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Altura ajustable semanalmente
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Infraestructura -->
+        <section class="dashboard-section">
+            <h2 class="section-title">
+                <i class="fas fa-warehouse"></i>
+                Infraestructura Básica
+            </h2>
+
+            <div class="info-cards">
+                <!-- Características del galpón -->
+                <div class="info-card important">
+                    <h3 class="card-title">
+                        <i class="fas fa-home"></i>
+                        Características del Galpón
+                    </h3>
+                    <ul class="card-list">
+                        <li>
+                            <i class="fas fa-arrows-alt-h"></i>
+                            Orientación este-oeste
+                        </li>
+                        <li>
+                            <i class="fas fa-ruler"></i>
+                            Ancho: 10-12 metros
+                        </li>
+                        <li>
+                            <i class="fas fa-arrow-up"></i>
+                            Altura: 2.5-3 metros laterales
+                        </li>
+                        <li>
+                            <i class="fas fa-expand"></i>
+                            Cumbrera: 4-5 metros
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Materiales de construcción -->
+                <div class="info-card">
+                    <h3 class="card-title">
+                        <i class="fas fa-hammer"></i>
+                        Materiales Recomendados
+                    </h3>
+                    <ul class="card-list">
+                        <li>
+                            <i class="fas fa-igloo"></i>
+                            Paredes: Block o madera
+                        </li>
+                        <li>
+                            <i class="fas fa-temperature-high"></i>
+                            Aislamiento: Poliestireno
+                        </li>
+                        <li>
+                            <i class="fas fa-tint"></i>
+                            Piso: Cemento con pendiente 2%
+                        </li>
+                        <li>
+                            <i class="fas fa-sun"></i>
+                            Techo: Galvanizado o zinc
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Control ambiental -->
+                <div class="info-card success">
+                    <h3 class="card-title">
+                        <i class="fas fa-sliders-h"></i>
+                        Sistemas de Control
+                    </h3>
+                    <ul class="card-list">
+                        <li>
+                            <i class="fas fa-thermometer-half"></i>
+                            Termómetro digital
+                        </li>
+                        <li>
+                            <i class="fas fa-tachometer-alt"></i>
+                            Higrómetro (humedad)
+                        </li>
+                        <li>
+                            <i class="fas fa-wind"></i>
+                            Controlador ventilación
+                        </li>
+                        <li>
+                            <i class="fas fa-lightbulb"></i>
+                            Programador de luces
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+
+        <!-- Nota final -->
+        <section class="dashboard-section" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+            <p class="footer-note">
+                <img src="imgs/Captura de pantalla 2025-10-01 135818.png" 
+                <i class="fas fa-hard-hat" style="margin-right: 10px;"></i>
+                Inversión inicial aproximada para 1000 pollos: $3,000 - $5,000 USD
+            </p>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="container">
+            <p>© <span id="currentYear">2025</span> Guía Práctica de Avicultura | Requerimientos</p>
+            <p style="margin-top: 10px; font-size: 0.9rem; color: #888;">
+                <i class="fas fa-info-circle"></i>
+                Los precios son referenciales y pueden variar según ubicación y proveedor
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Actualizar año actual
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            // Interactividad para las imágenes de equipos
+            const equipmentImages = document.querySelectorAll('.equipment-image');
+            
+            equipmentImages.forEach(image => {
+                image.addEventListener('click', function() {
+                    const equipmentName = this.closest('.equipment-card').querySelector('.equipment-name').textContent;
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = 'image/*';
+                    
+                    input.onchange = function(e) {
+                        const file = e.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function(event) {
+                                image.innerHTML = `<img src="${event.target.result}" alt="${equipmentName}" style="width:100%; height:100%; object-fit:cover;">`;
+                                image.style.background = 'transparent';
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    };
+                    
+                    input.click();
+                });
+            });
+            
+            // Efecto hover para las filas de la tabla
+            const tableRows = document.querySelectorAll('.requirements-table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(5px)';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateX(0)';
+                });
+            });
+            
+            // Estilos para botones de equipo
+            const equipmentBtns = document.querySelectorAll('.equipment-btn');
+            equipmentBtns.forEach(btn => {
+                btn.style.cssText = `
+                    background: var(--secondary-color);
+                    color: white;
+                    border: none;
+                    padding: 8px 15px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-weight: 500;
+                    transition: var(--transition);
+                    width: 100%;
+                    margin-top: 10px;
+                `;
+                
+                btn.addEventListener('mouseenter', function() {
+                    this.style.background = 'var(--primary-color)';
+                    this.style.transform = 'translateY(-2px)';
+                });
+                
+                btn.addEventListener('mouseleave', function() {
+                    this.style.background = 'var(--secondary-color)';
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+
+        function mostrarDetalles(equipo) {
+            const detalles = {
+                'calefactor': 'Calefactor a gas de infrarrojos. Consumo: 0.3-0.5 kg gas/hora. Área cubierta: 50-100 m².',
+                'ventilador': 'Ventilador túnel de 36-48 pulgadas. Motor: 0.75-1.5 HP. Control de velocidad variable.',
+                'bebedero': 'Sistema de nipple de acero inoxidable. Presión: 15-25 cm columna agua. Fácil limpieza.',
+                'comedero': 'Comedero automático de cadena o plato. Capacidad ajustable. Sistema anti-derroche.'
+            };
+            
+            alert(`Detalles del equipo:\n\n${detalles[equipo] || 'Información no disponible'}`);
+        }
+    </script>
+</body>
+</html>

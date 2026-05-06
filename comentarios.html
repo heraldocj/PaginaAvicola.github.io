@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testimonios Verificados - Comunidad Avícola Premium</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap">
+    <style>
+        :root {
+            --primary-gold: #D4AF37;
+            --secondary-gold: #FFD700;
+            --dark-green: #2c5530;
+            --light-green: #8FBC8F;
+            --cream: #F5F5DC;
+            --brown: #8B4513;
+            --light-brown: #D2B48C;
+            --dark-gray: #1a1a1a;
+            --light-gray: #f8f9fa;
+            --accent: #e74c3c;
+            --verified-blue: #3498db;
+            --border-radius: 20px;
+            --box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            --transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, var(--cream) 0%, #ffffff 100%);
+            color: var(--dark-gray);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Hero Testimonios */
+        .testimonials-hero {
+            min-height: 70vh;
+            background: linear-gradient(rgba(44, 85, 48, 0.95), rgba(44, 85, 48, 0.9)), 
+                        url('https://images.unsplash.com/photo-1564759224907-65b945ff4e13?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonials-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 70% 30%, rgba(212, 175, 55, 0.3) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
+
+        .hero-stat {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            min-width: 200px;
+            transition: var(--transition);
+        }
+
+        .hero-stat:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--primary-gold);
+        }
+
+        .stat-number {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--secondary-gold);
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Navegación */
+        .testimonials-nav {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 50px;
+            padding: 15px 30px;
+            box-shadow: var(--box-shadow);
+            z-index: 1000;
+            display: flex;
+            gap: 5px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--dark-green);
+            font-weight: 500;
+            border-radius: 30px;
+            transition: var(--transition);
+            min-width: 90px;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: linear-gradient(135deg, var(--dark-green), var(--light-green));
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .nav-icon {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        .nav-text {
+            font-size: 0.8rem;
+        }
+
+        /* Sistema de Testimonios */
+        .testimonials-section {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #ffffff 0%, var(--cream) 100%);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: var(--dark-green);
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-gold), var(--secondary-gold));
+            border-radius: 2px;
+        }
+
+        /* Filtros de Testimonios */
+        .testimonials-filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 12px 25px;
+            background: white;
+            border: 2px solid rgba(44, 85, 48, 0.1);
+            border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            color: var(--dark-green);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary-gold);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.1);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--dark-green), var(--light-green));
+            color: white;
+            border-color: transparent;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(44, 85, 48, 0.2);
+        }
+
+        /* Grid de Testimonios */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .testimonial-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-20px);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.15);
+            border-color: var(--primary-gold);
+        }
+
+        .testimonial-card.featured {
+            border: 3px solid var(--primary-gold);
+            background: linear-gradient(135deg, #fff9f0 0%, #ffffff 100%);
+            transform: scale(1.05);
+        }
+
+        .testimonial-card.featured:hover {
+            transform: scale(1.05) translateY(-20px);
+        }
+
+        .testimonial-badge {
+            position: absolute;
+            top: -15px;
+            left: 30px;
+            background: var(--primary-gold);
+            color: var(--dark-green);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .verified-badge {
+            background: var(--verified-blue);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-left: 10px;
+        }
+
+        .testimonial-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+
+        .testimonial-user {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-avatar {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--dark-green), var(--light-green));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .user-info h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            color: var(--dark-green);
+            margin-bottom: 5px;
+        }
+
+        .user-type {
+            display: inline-block;
+            background: rgba(44, 85, 48, 0.1);
+            color: var(--dark-green);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        .testimonial-rating {
+            display: flex;
+            gap: 5px;
+        }
+
+        .star {
+            color: #ddd;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .star.filled {
+            color: var(--primary-gold);
+        }
+
+        .testimonial-content {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 25px;
+        }
+
+        .testimonial-content::before {
+            content: '"';
+            position: absolute;
+            left: 0;
+            top: -10px;
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: rgba(212, 175, 55, 0.2);
+            line-height: 1;
+        }
+
+        .testimonial-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.4rem;
+            color: var(--brown);
+            margin-bottom: 15px;
+        }
+
+        .testimonial-text {
+            color: #555;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        .testimonial-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .testimonial-date {
+            color: #777;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .testimonial-metrics {
+            display: flex;
+            gap: 15px;
+        }
+
+        .metric {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .metric i {
+            color: var(--primary-gold);
+        }
+
+        /* Formulario de Testimonios Premium */
+        .testimonial-form-section {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, var(--dark-green), #1a3a1f);
+            color: white;
+            position: relative;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 60px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .form-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .form-alert {
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        .form-alert.success {
+            background: rgba(39, 174, 96, 0.2);
+            border: 1px solid rgba(39, 174, 96, 0.3);
+            color: #2ecc71;
+        }
+
+        .form-alert.error {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            color: #e74c3c;
+        }
+
+        .testimonial-form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 150px;
+            line-height: 1.6;
+        }
+
+        .rating-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 10px;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .rating-star {
+            color: #ddd;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .rating-star:hover,
+        .rating-star.hovered {
+            color: var(--secondary-gold);
+            transform: scale(1.2);
+        }
+
+        .rating-star.selected {
+            color: var(--primary-gold);
+            transform: scale(1.1);
+        }
+
+        .rating-label {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .submit-button {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+            color: var(--dark-green);
+            border: none;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* CTA Sección */
+        .cta-section {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #ffffff 0%, var(--cream) 100%);
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--dark-green);
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(135deg, var(--dark-green), var(--light-green));
+            color: white;
+            text-decoration: none;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: var(--transition);
+            margin-top: 40px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(44, 85, 48, 0.3);
+        }
+
+        /* Footer */
+        .testimonials-footer {
+            background: var(--dark-gray);
+            color: white;
+            padding: 80px 20px 40px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            margin-bottom: 20px;
+        }
+
+        .footer-description {
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* Animaciones */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .testimonials-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+            
+            .testimonial-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .testimonials-nav {
+                display: none;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .testimonial-card.featured {
+                transform: scale(1);
+            }
+            
+            .testimonial-card.featured:hover {
+                transform: translateY(-20px);
+            }
+            
+            .form-container {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="testimonials-hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Comunidad de Éxito Avícola</h1>
+            <p class="hero-subtitle">
+                Historias reales de productores que transformaron su negocio con nuestro sistema.
+                Cada testimonio representa una historia de superación y resultados comprobados.
+            </p>
+            
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <span class="stat-number">4.8</span>
+                    <span class="stat-label">Calificación Promedio</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">Testimonios Verificados</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-number">95%</span>
+                    <span class="stat-label">Recomiendan</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-number">25-30%</span>
+                    <span class="stat-label">Mejora Promedio</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Navegación -->
+    <nav class="testimonials-nav">
+        <div class="nav-item">
+            <a href="index.html" class="nav-link">
+                <i class="fas fa-home nav-icon"></i>
+                <span class="nav-text">Inicio</span>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a href="asesoria.html" class="nav-link">
+                <i class="fas fa-user-tie nav-icon"></i>
+                <span class="nav-text">Consultor</span>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a href="galeria.html" class="nav-link">
+                <i class="fas fa-images nav-icon"></i>
+                <span class="nav-text">Portafolio</span>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a href="comentarios.html" class="nav-link active">
+                <i class="fas fa-star nav-icon"></i>
+                <span class="nav-text">Testimonios</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Sección de Testimonios -->
+    <section class="testimonials-section">
+        <div class="section-header">
+            <h2 class="section-title">Testimonios Verificados</h2>
+            <p style="color: #666; max-width: 800px; margin: 0 auto; font-size: 1.1rem;">
+                Experiencias reales de productores que implementaron nuestro sistema con éxito
+            </p>
+        </div>
+
+        <!-- Filtros -->
+        <div class="testimonials-filters">
+            <button class="filter-btn active" data-filter="all">
+                <i class="fas fa-th"></i>
+                Todos
+            </button>
+            <button class="filter-btn" data-filter="featured">
+                <i class="fas fa-star"></i>
+                Destacados
+            </button>
+            <button class="filter-btn" data-filter="verified">
+                <i class="fas fa-check-circle"></i>
+                Verificados
+            </button>
+            <button class="filter-btn" data-filter="principiantes">
+                <i class="fas fa-baby"></i>
+                Principiantes
+            </button>
+            <button class="filter-btn" data-filter="experimentados">
+                <i class="fas fa-chart-line"></i>
+                Experimentados
+            </button>
+            <button class="filter-btn" data-filter="asesoria">
+                <i class="fas fa-user-tie"></i>
+                Con Asesoría
+            </button>
+        </div>
+
+        <!-- Grid de Testimonios -->
+        <div class="testimonials-grid" id="testimonialsGrid">
+            <!-- Los testimonios se generarán dinámicamente con JavaScript -->
+        </div>
+    </section>
+
+    <!-- Formulario de Testimonios -->
+    <section class="testimonial-form-section">
+        <div class="form-container">
+            <h2 class="form-title">Comparte Tu Experiencia</h2>
+            
+            <div id="formAlert" class="form-alert"></div>
+            
+            <form id="testimonialForm" class="testimonial-form">
+                <div class="form-group">
+                    <label for="userName" class="form-label">Nombre Completo *</label>
+                    <input type="text" id="userName" class="form-input" placeholder="Tu nombre" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="userLocation" class="form-label">Ubicación *</label>
+                    <input type="text" id="userLocation" class="form-input" placeholder="Ciudad, País" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="userType" class="form-label">Tipo de Productor *</label>
+                    <select id="userType" class="form-input" required>
+                        <option value="">Selecciona tu tipo</option>
+                        <option value="principiantes">Principiante</option>
+                        <option value="experimentados">Experimentado</option>
+                        <option value="mediano">Mediano Productor</option>
+                        <option value="grande">Gran Productor</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="testimonialTitle" class="form-label">Título de tu Experiencia *</label>
+                    <input type="text" id="testimonialTitle" class="form-input" placeholder="Ej: Increíble Transformación" required>
+                </div>
+                
+                <div class="form-group full-width">
+                    <div class="rating-container">
+                        <label class="form-label">Calificación *</label>
+                        <div class="rating-stars" id="ratingStars">
+                            <span class="rating-star" data-rating="1">★</span>
+                            <span class="rating-star" data-rating="2">★</span>
+                            <span class="rating-star" data-rating="3">★</span>
+                            <span class="rating-star" data-rating="4">★</span>
+                            <span class="rating-star" data-rating="5">★</span>
+                        </div>
+                        <div class="rating-label">
+                            <span>Muy Malo</span>
+                            <span>Excelente</span>
+                        </div>
+                        <input type="hidden" id="rating" name="rating" required>
+                    </div>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label for="testimonialText" class="form-label">Tu Experiencia Detallada *</label>
+                    <textarea id="testimonialText" class="form-textarea" placeholder="Comparte tu historia, resultados obtenidos, mejoras específicas..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="resultMetrics" class="form-label">Métricas de Resultados</label>
+                    <input type="text" id="resultMetrics" class="form-input" placeholder="Ej: 95% supervivencia, 3.1kg promedio">
+                </div>
+                
+                <div class="form-group">
+                    <label for="improvementPercentage" class="form-label">Mejora en %</label>
+                    <input type="number" id="improvementPercentage" class="form-input" placeholder="25" min="0" max="1000" step="0.1">
+                </div>
+                
+                <button type="submit" class="submit-button" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i>
+                    Enviar Testimonio
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title">¿Listo para Transformar tu Negocio Avícola?</h2>
+            <p style="color: #666; font-size: 1.2rem; margin-bottom: 30px;">
+                Únete a nuestra comunidad de productores exitosos y comienza a ver resultados reales desde el primer ciclo.
+            </p>
+            <a href="asesoria.html" class="cta-button">
+                <i class="fas fa-calendar-check"></i>
+                Agenda Tu Consultoría Gratuita
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="testimonials-footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <div class="footer-logo">Avícola Premium</div>
+                <p class="footer-description">
+                    Transformando la avicultura dominicana con conocimiento científico, 
+                    experiencia práctica y resultados comprobables.
+                </p>
+            </div>
+            
+            <div class="footer-column">
+                <h3 style="color: var(--primary-gold); margin-bottom: 20px; font-family: 'Montserrat', sans-serif;">
+                    Contacto
+                </h3>
+                <p class="footer-description">
+                    <i class="fas fa-phone" style="margin-right: 10px;"></i>
+                    +1 (809) 555-1234
+                </p>
+                <p class="footer-description">
+                    <i class="fas fa-envelope" style="margin-right: 10px;"></i>
+                    info@avicolapremium.com
+                </p>
+            </div>
+            
+            <div class="footer-column">
+                <h3 style="color: var(--primary-gold); margin-bottom: 20px; font-family: 'Montserrat', sans-serif;">
+                    Conéctate
+                </h3>
+                <div style="display: flex; gap: 15px; margin-top: 20px;">
+                    <a href="#" style="color: white; font-size: 1.5rem;">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="#" style="color: white; font-size: 1.5rem;">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" style="color: white; font-size: 1.5rem;">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" style="color: white; font-size: 1.5rem;">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2024 Avícola Premium. Todos los derechos reservados.</p>
+            <p style="margin-top: 10px;">Testimonios verificados por nuestro equipo de expertos.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Datos de testimonios
+        const testimonialsData = [
+            {
+                id: 1,
+                name: "Miguel Rodríguez",
+                avatar: "MR",
+                type: "Productor Experto",
+                location: "Moca, República Dominicana",
+                date: "15 Noviembre, 2023",
+                rating: 5,
+                title: "Excelente para comenzar",
+                text: "Esta guía me salvó en mi primer ciclo de pollos. Seguí al pie de la letra las fases y los medicamentos, y logré un 95% de supervivencia. Los pesos fueron excelentes: 3.1kg promedio a los 45 días. La sección de procesos fue especialmente útil para la preparación y venta. El sistema de bioseguridad implementado redujo mis costos de medicamentos en un 30%.",
+                categories: ["featured", "verified", "experimentados"],
+                metrics: [
+                    { icon: "fa-weight", text: "3.1kg promedio" },
+                    { icon: "fa-percentage", text: "95% supervivencia" },
+                    { icon: "fa-dollar-sign", text: "+28% rentabilidad" }
+                ]
+            },
+            {
+                id: 2,
+                name: "Ana Estévez",
+                avatar: "AE",
+                type: "Emprendedora Avícola",
+                location: "La Vega, República Dominicana",
+                date: "2 Noviembre, 2023",
+                rating: 5,
+                title: "Información muy práctica",
+                text: "Como mujer que comenzó sola en la avicultura, esta guía fue mi biblia. Los requerimientos específicos me ayudaron a comprar solo lo necesario sin gastar de más. La tabla de medicamentos me dio seguridad al saber qué usar en cada momento. ¡Mi primer lote fue todo un éxito gracias a esta información! Ahora tengo mi tercera granja funcionando perfectamente.",
+                categories: ["verified", "principiantes"],
+                metrics: [
+                    { icon: "fa-home", text: "3 granjas operando" },
+                    { icon: "fa-chart-line", text: "Crecimiento estable" }
+                ]
+            },
+            {
+                id: 3,
+                name: "Carlos Peña",
+                avatar: "CP",
+                type: "Productor Senior",
+                location: "Santiago, República Dominicana",
+                date: "25 Octubre, 2023",
+                rating: 4,
+                title: "Buena base, excelentes resultados",
+                text: "Como productor con 10 años de experiencia, encuentro que la guía es excelente tanto para principiantes como para productores establecidos. Cubre todo lo esencial de manera clara y científica. La implementación del sistema me ayudó a optimizar procesos que tenía mal estructurados. Mi conversión alimenticia mejoró de 1.8 a 1.65.",
+                categories: ["experimentados", "verified"],
+                metrics: [
+                    { icon: "fa-percentage", text: "1.65 conversión" },
+                    { icon: "fa-dollar-sign", text: "15% más rentable" }
+                ]
+            },
+            {
+                id: 4,
+                name: "Luisa Sánchez",
+                avatar: "LS",
+                type: "Mediano Productor",
+                location: "San Cristóbal, República Dominicana",
+                date: "10 Octubre, 2023",
+                rating: 5,
+                title: "Inversión que vale la pena",
+                text: "Contraté la asesoría premium después de leer la guía y fue la mejor decisión. Me ayudaron a optimizar mi galpón existente y mejorar los protocolos. Incrementé mi ganancia por pollo en un 15% solo con los ajustes que me recomendaron. El sistema de monitoreo implementado me permite anticipar problemas antes de que ocurran. Totalmente recomendado para quien quiera profesionalizarse.",
+                categories: ["asesoria", "verified"],
+                metrics: [
+                    { icon: "fa-dollar-sign", text: "15% más ganancia" },
+                    { icon: "fa-chart-bar", text: "Monitoreo proactivo" }
+                ]
+            },
+            {
+                id: 5,
+                name: "José Martínez",
+                avatar: "JM",
+                type: "Nuevo Productor",
+                location: "Puerto Plata, República Dominicana",
+                date: "30 Septiembre, 2023",
+                rating: 4,
+                title: "Claro y al grano",
+                text: "La información está muy bien organizada y es fácil de seguir. Me gustó especialmente la parte de planificación de costos que me ayudó a evitar sorpresas. Aunque soy nuevo en esto, pude implementar todo correctamente gracias a las explicaciones paso a paso. Obtuve 2.8kg promedio en mi primer ciclo.",
+                categories: ["principiantes"],
+                metrics: [
+                    { icon: "fa-weight", text: "2.8kg promedio" },
+                    { icon: "fa-check-circle", text: "Sin complicaciones" }
+                ]
+            },
+            {
+                id: 6,
+                name: "Roberto Jiménez",
+                avatar: "RJ",
+                type: "Productor Certificado",
+                location: "La Romana, República Dominicana",
+                date: "15 Septiembre, 2023",
+                rating: 5,
+                title: "Transformación total",
+                text: "Después de implementar el sistema completo, mi productividad aumentó en un 35%. El programa de vacunación y el manejo de temperatura fueron clave. Ahora mis pollos crecen más uniformes y saludables. La rentabilidad por metro cuadrado mejoró significativamente.",
+                categories: ["featured", "experimentados", "verified"],
+                metrics: [
+                    { icon: "fa-percentage", text: "35% más productivo" },
+                    { icon: "fa-chart-line", text: "Crecimiento uniforme" }
+                ]
+            }
+        ];
+
+        // Variables globales
+        let currentFilter = 'all';
+        let selectedRating = 0;
+
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            renderTestimonials();
+            setupEventListeners();
+            setupRatingStars();
+            
+            // Animación de aparición de tarjetas
+            animateCardsOnScroll();
+        });
+
+        // Renderizar testimonios
+        function renderTestimonials() {
+            const grid = document.getElementById('testimonialsGrid');
+            grid.innerHTML = '';
+            
+            const filteredTestimonials = currentFilter === 'all' 
+                ? testimonialsData 
+                : testimonialsData.filter(testimonial => 
+                    testimonial.categories.includes(currentFilter)
+                );
+            
+            filteredTestimonials.forEach((testimonial, index) => {
+                const card = document.createElement('div');
+                const isFeatured = testimonial.categories.includes('featured');
+                const isVerified = testimonial.categories.includes('verified');
+                
+                card.className = `testimonial-card ${isFeatured ? 'featured' : ''} visible`;
+                card.dataset.category = testimonial.categories.join(' ');
+                
+                // Crear estrellas de rating
+                const starsHtml = Array(5).fill(0).map((_, i) => 
+                    `<span class="star ${i < testimonial.rating ? 'filled' : ''}">★</span>`
+                ).join('');
+                
+                // Crear métricas
+                const metricsHtml = testimonial.metrics.map(metric => 
+                    `<span class="metric">
+                        <i class="fas ${metric.icon}"></i>
+                        ${metric.text}
+                    </span>`
+                ).join('');
+                
+                // Determinar badge
+                let badgeHtml = '';
+                if (isFeatured) {
+                    badgeHtml = `
+                        <div class="testimonial-badge">
+                            <i class="fas fa-crown"></i>
+                            DESTACADO
+                            ${isVerified ? `
+                                <span class="verified-badge">
+                                    <i class="fas fa-check"></i>
+                                    VERIFICADO
+                                </span>
+                            ` : ''}
+                        </div>
+                    `;
+                } else if (isVerified) {
+                    badgeHtml = `
+                        <div class="testimonial-badge">
+                            <span class="verified-badge">
+                                <i class="fas fa-check"></i>
+                                VERIFICADO
+                            </span>
+                        </div>
+                    `;
+                }
+                
+                card.innerHTML = `
+                    ${badgeHtml}
+                    
+                    <div class="testimonial-header">
+                        <div class="testimonial-user">
+                            <div class="user-avatar">${testimonial.avatar}</div>
+                            <div class="user-info">
+                                <h4>${testimonial.name}</h4>
+                                <div class="user-type">${testimonial.type}</div>
+                                <div class="testimonial-date">
+                                    <i class="fas fa-calendar"></i>
+                                    ${testimonial.date}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-rating">
+                            ${starsHtml}
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-content">
+                        <h3 class="testimonial-title">${testimonial.title}</h3>
+                        <p class="testimonial-text">${testimonial.text}</p>
+                    </div>
+                    
+                    <div class="testimonial-footer">
+                        <div class="testimonial-metrics">
+                            ${metricsHtml}
+                        </div>
+                        <div class="testimonial-date">
+                            <i class="fas fa-map-marker-alt"></i>
+                            ${testimonial.location}
+                        </div>
+                    </div>
+                `;
+                
+                // Retraso en la animación para cada tarjeta
+                card.style.transitionDelay = `${index * 0.1}s`;
+                grid.appendChild(card);
+            });
+        }
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            // Filtros
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.dataset.filter;
+                    renderTestimonials();
+                });
+            });
+            
+            // Formulario
+            const form = document.getElementById('testimonialForm');
+            form.addEventListener('submit', handleFormSubmit);
+            
+            // Botón de envío
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.addEventListener('click', function() {
+                if (!form.checkValidity()) {
+                    showAlert('Por favor, completa todos los campos obligatorios.', 'error');
+                    return;
+                }
+            });
+        }
+
+        // Configurar estrellas de rating
+        function setupRatingStars() {
+            const stars = document.querySelectorAll('.rating-star');
+            const ratingInput = document.getElementById('rating');
+            
+            stars.forEach(star => {
+                star.addEventListener('mouseover', function() {
+                    const rating = parseInt(this.dataset.rating);
+                    highlightStars(rating);
+                });
+                
+                star.addEventListener('mouseout', function() {
+                    highlightStars(selectedRating);
+                });
+                
+                star.addEventListener('click', function() {
+                    selectedRating = parseInt(this.dataset.rating);
+                    ratingInput.value = selectedRating;
+                    highlightStars(selectedRating);
+                });
+            });
+            
+            function highlightStars(rating) {
+                stars.forEach((star, index) => {
+                    if (index < rating) {
+                        star.classList.add('hovered');
+                    } else {
+                        star.classList.remove('hovered');
+                    }
+                });
+            }
+        }
+
+        // Manejar envío del formulario
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const submitBtn = document.getElementById('submitBtn');
+            
+            // Validar rating
+            if (!selectedRating) {
+                showAlert('Por favor, selecciona una calificación.', 'error');
+                return;
+            }
+            
+            // Mostrar estado de carga
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+            
+            // Simular envío a servidor
+            setTimeout(() => {
+                // Crear nuevo testimonio
+                const newTestimonial = {
+                    id: testimonialsData.length + 1,
+                    name: document.getElementById('userName').value,
+                    avatar: getInitials(document.getElementById('userName').value),
+                    type: document.getElementById('userType').selectedOptions[0].text,
+                    location: document.getElementById('userLocation').value,
+                    date: new Date().toLocaleDateString('es-ES', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    }),
+                    rating: selectedRating,
+                    title: document.getElementById('testimonialTitle').value,
+                    text: document.getElementById('testimonialText').value,
+                    categories: [document.getElementById('userType').value],
+                    metrics: []
+                };
+                
+                // Agregar métricas si existen
+                const metrics = document.getElementById('resultMetrics').value;
+                const improvement = document.getElementById('improvementPercentage').value;
+                
+                if (metrics) {
+                    newTestimonial.metrics.push({
+                        icon: 'fa-chart-bar',
+                        text: metrics
+                    });
+                }
+                
+                if (improvement) {
+                    newTestimonial.metrics.push({
+                        icon: 'fa-percentage',
+                        text: `${improvement}% mejora`
+                    });
+                }
+                
+                // Agregar a la lista
+                testimonialsData.unshift(newTestimonial);
+                
+                // Mostrar éxito
+                showAlert('¡Testimonio enviado con éxito! Será verificado por nuestro equipo antes de publicarse.', 'success');
+                
+                // Resetear formulario
+                form.reset();
+                selectedRating = 0;
+                document.getElementById('rating').value = '';
+                document.querySelectorAll('.rating-star').forEach(star => {
+                    star.classList.remove('hovered', 'selected');
+                });
+                
+                // Restaurar botón
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Testimonio';
+                
+                // Recargar testimonios
+                renderTestimonials();
+                
+            }, 1500);
+        }
+
+        // Mostrar alertas
+        function showAlert(message, type) {
+            const alertDiv = document.getElementById('formAlert');
+            alertDiv.textContent = message;
+            alertDiv.className = `form-alert ${type}`;
+            alertDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                alertDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // Obtener iniciales del nombre
+        function getInitials(name) {
+            return name.split(' ')
+                .map(word => word[0])
+                .join('')
+                .toUpperCase()
+                .substring(0, 2);
+        }
+
+        // Animación de scroll
+        function animateCardsOnScroll() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            document.querySelectorAll('.testimonial-card').forEach(card => {
+                observer.observe(card);
+            });
+        }
+
+        // Actualizar filtros cuando se añaden nuevos testimonios
+        window.addEventListener('testimonialsUpdated', function() {
+            renderTestimonials();
+        });
+    </script>
+</body>
+</html>
